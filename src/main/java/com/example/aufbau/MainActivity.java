@@ -14,43 +14,31 @@ import android.widget.TextView;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener, android.view.View.OnClickListener {
-    private Button button;
-    private EditText editText;
-    private TextToSpeech tts;
+public class MainActivity extends AppCompatActivity {
+    TextView txt;
 
+    Button btn_good;
+    Button btn_bad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aufgabe_11_fixed);
+        setContentView(R.layout.aufgabe_12_multiple_btns);
 
-        tts = new TextToSpeech(this, this);
-        button = findViewById(R.id.button);
-        editText = findViewById(R.id.editText);
-        //button.setOnClickListener(this);
-    }
-/*
-    @Override
-    public void onClick(View v) {
-        Bundle params = new Bundle();
-        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
-        tts.speak(editText.getText().toString(), TextToSpeech.QUEUE_FLUSH, params, null);
-    }
-*/
-    public void btnClick(View v) {
-        Bundle params = new Bundle();
-        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
-        tts.speak(editText.getText().toString(), TextToSpeech.QUEUE_FLUSH, params, null);
+
+        btn_good = findViewById(R.id.button9);
+        btn_good = findViewById(R.id.button10);
+        txt = findViewById(R.id.textView22);
     }
 
-    @Override
-    public void onInit(int status) {
 
+
+
+    public void btnGoodClick(View v) {
+            txt.setText("Das Freut uns!");
+    }
+    public void btnBadClick(View v) {
+        txt.setText("Das ist schade!");
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
