@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         Bundle params = new Bundle();
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
         tts.speak(editText.getText().toString(), TextToSpeech.QUEUE_FLUSH, params, null);
+        //
     }
 */
     public void btnClick(View v) {
