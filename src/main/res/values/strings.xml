@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Aufbau</string>
+    <string name="txt_hello_world">Hello World!</string>
+    <string name="what_should_i_say">Was soll ich sagen?</string>
+    <string name="say_it">Sag es</string>
+    <string name="empty">" "</string>
+</resources>
