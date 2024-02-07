@@ -3,6 +3,7 @@ package com.example.aufbau;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements android.view.View
     private static final long HOECHSTALTER_MS = 2000;
     private Handler handler = new Handler();
 
-    //    private int randomPicture = 0;
+    private MediaPlayer mp;
     Random rand = new Random();
 
 
@@ -41,10 +42,17 @@ public class GameActivity extends AppCompatActivity implements android.view.View
 
         spielbereich = (ViewGroup) findViewById(R.id.spielbereich);
         massstab = getResources().getDisplayMetrics().density;
+        mp = MediaPlayer.create(this, R.raw.summen);
         spielStarten();
 
         Log.d("Test: ", "onCreate");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mp.release();
+        super.onDestroy();
     }
 
     private void spielStarten() {
@@ -148,6 +156,17 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         int oben = zufallsgenerator.nextInt(hoehe - muecke_hoehe);
 
         ImageView muecke = new ImageView(this);
+
+        // TODO: optimized algorithm, but all error messages have the same prediction
+        /*
+        int[] imageResources = {R.drawable.error_error, R.drawable.error_03, R.drawable.error_04, R.drawable.error_02};
+
+        int randomPictureIndex = rand.nextInt(imageResources.length - 1) + 1; // Zufallszahl zwischen 1 und 14 generieren
+        if (randomPictureIndex >= 1 && randomPictureIndex < imageResources.length) {
+            muecke.setImageResource(imageResources[randomPictureIndex]);
+        }
+         */
+        // Multiple Error Messages
         int randomPicture = rand.nextInt(14) + 1;
         if (randomPicture == 1) {
             muecke.setImageResource(R.drawable.error_03);
@@ -159,6 +178,9 @@ public class GameActivity extends AppCompatActivity implements android.view.View
             muecke.setImageResource(R.drawable.error_error);
         }
 
+        // TODO: add elephants (page 180)
+
+
         muecke.setOnClickListener(this);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(muecke_breite, muecke_hoehe);
@@ -169,7 +191,11 @@ public class GameActivity extends AppCompatActivity implements android.view.View
 
         muecke.setTag(R.id.geburtsdatum, new Date());
 
-
+        if (mp.isPlaying()) {
+            mp.pause();
+        }
+        mp.seekTo(0);
+        mp.start();
     }
 
     private void mueckenVerschwinden() {
