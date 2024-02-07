@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">Aufbau</string>
+    <string name="app_name">Muckenfang</string>
     <string name="txt_hello_world">Hello World!</string>
     <string name="what_should_i_say">Was soll ich sagen?</string>
     <string name="say_it">Sag es</string>
     <string name="empty">" "</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="start">Start</string>
+    <string name="welcome">Willkommen beim Mückenfang</string>
 </resources>
