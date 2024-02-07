@@ -30,6 +30,9 @@ public class GameActivity extends AppCompatActivity implements android.view.View
     private static final long HOECHSTALTER_MS = 2000;
     private Handler handler = new Handler();
 
+    //    private int randomPicture = 0;
+    Random rand = new Random();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +148,16 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         int oben = zufallsgenerator.nextInt(hoehe - muecke_hoehe);
 
         ImageView muecke = new ImageView(this);
-        muecke.setImageResource(R.drawable.error_error);
+        int randomPicture = rand.nextInt(14) + 1;
+        if (randomPicture == 1) {
+            muecke.setImageResource(R.drawable.error_03);
+        } else if (randomPicture == 2) {
+            muecke.setImageResource(R.drawable.error_04);
+        } else if (randomPicture % 2 == 0) {
+            muecke.setImageResource(R.drawable.error_02);
+        } else if (randomPicture % 2 == 1) {
+            muecke.setImageResource(R.drawable.error_error);
+        }
 
         muecke.setOnClickListener(this);
 
