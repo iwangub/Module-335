@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,10 +36,12 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game);
 
-        massstab = getResources().getDisplayMetrics().density;
-        this.spielStarten();
-
         spielbereich = (ViewGroup) findViewById(R.id.spielbereich);
+        massstab = getResources().getDisplayMetrics().density;
+        spielStarten();
+
+        Log.d("Test: ", "onCreate");
+
     }
 
     private void spielStarten() {
@@ -54,6 +57,7 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         gefangeneMuecken = 0;
         zeit = 60;
         bildschirmAktualisieren();
+
         handler.postDelayed(this, 1000);
     }
 
@@ -78,28 +82,6 @@ public class GameActivity extends AppCompatActivity implements android.view.View
 
         ViewGroup.LayoutParams lpZeit = flZeit.getLayoutParams();
         lpZeit.width = Math.round(massstab * zeit * 300 / 60);
-
-        // TODO: idk if its right here
-        float zufallszahl = zufallsgenerator.nextFloat();
-
-        //
-        if (zufallszahl < muecken * 1.5 / 60) {
-            eineMueckeAnzeigen();
-        }
-
-        //
-        double wahrscheinlichkeit = muecken * 1.5f / 60;
-        if (wahrscheinlichkeit > 1) {
-            eineMueckeAnzeigen();
-            if (zufallszahl < wahrscheinlichkeit - 1) {
-                eineMueckeAnzeigen();
-            }
-        } else {
-            if (zufallszahl < wahrscheinlichkeit) {
-                eineMueckeAnzeigen();
-            }
-        }
-
     }
 
     // s 157
@@ -155,22 +137,19 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         int hoehe = spielbereich.getHeight();
 
         // 160
-        int muecke_breite = Math.round(massstab * 50);
-        int muecke_hoehe = Math.round(massstab * 42);
+        int muecke_breite = Math.round(massstab * 100);
+        int muecke_hoehe = Math.round(massstab * 84);
 
         // 161
         int links = zufallsgenerator.nextInt(breite - muecke_breite);
         int oben = zufallsgenerator.nextInt(hoehe - muecke_hoehe);
 
         ImageView muecke = new ImageView(this);
-        muecke.setImageResource(R.drawable.fly_fly);
+        muecke.setImageResource(R.drawable.error_error);
 
-        // TODO: export stuff below to onClick() method?
         muecke.setOnClickListener(this);
 
-        FrameLayout.LayoutParams params =
-                new FrameLayout.LayoutParams(muecke_breite, muecke_hoehe);
-
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(muecke_breite, muecke_hoehe);
         params.leftMargin = links;
         params.topMargin = oben;
         params.gravity = Gravity.TOP + Gravity.LEFT;
