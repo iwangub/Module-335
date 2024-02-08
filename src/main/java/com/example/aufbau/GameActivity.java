@@ -3,6 +3,8 @@ package com.example.aufbau;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +12,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -46,7 +51,6 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         spielStarten();
 
         Log.d("Test: ", "onCreate");
-
     }
 
     @Override
@@ -66,7 +70,7 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         runde = runde + 1;
         muecken = runde * 10;
         gefangeneMuecken = 0;
-        zeit = 60;
+        zeit = 10;
         bildschirmAktualisieren();
 
         handler.postDelayed(this, 1000);
@@ -110,13 +114,11 @@ public class GameActivity extends AppCompatActivity implements android.view.View
                 eineMueckeAnzeigen();
             }
         }
-        // TODO: Optional
         mueckenVerschwinden();
         bildschirmAktualisieren();
         if (!pruefeSpielende()) {
             pruefeRundenende();
         }
-        // p175
         if (!pruefeSpielende()) {
             if (!pruefeRundenende()) {
                 handler.postDelayed(this, 1000);
@@ -124,7 +126,6 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         }
     }
 
-    // 157
     private boolean pruefeSpielende() {
         if (zeit == 0 && gefangeneMuecken < muecken) {
             gameOver();
@@ -133,7 +134,6 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         return false;
     }
 
-    // 159
     private boolean pruefeRundenende() {
         if (gefangeneMuecken >= muecken) {
             starteRunde();
@@ -143,15 +143,12 @@ public class GameActivity extends AppCompatActivity implements android.view.View
     }
 
     private void eineMueckeAnzeigen() {
-        // 160
         int breite = spielbereich.getWidth();
         int hoehe = spielbereich.getHeight();
 
-        // 160
         int muecke_breite = Math.round(massstab * 100);
         int muecke_hoehe = Math.round(massstab * 84);
 
-        // 161
         int links = zufallsgenerator.nextInt(breite - muecke_breite);
         int oben = zufallsgenerator.nextInt(hoehe - muecke_hoehe);
 
@@ -179,7 +176,6 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         }
 
         // TODO: add elephants (page 180)
-
 
         muecke.setOnClickListener(this);
 
@@ -218,13 +214,17 @@ public class GameActivity extends AppCompatActivity implements android.view.View
         punkte += 100;
         bildschirmAktualisieren();
         spielbereich.removeView(muecke);
+
     }
+
 
     public void gameOver() {
         Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.gameover);
         dialog.show();
         spielLaeuft = false;
+        setResult(punkte);
+        finish();
     }
 
     @Override
